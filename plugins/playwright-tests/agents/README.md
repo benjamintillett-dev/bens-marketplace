@@ -1,40 +1,55 @@
 # Playwright Testing Plugin
 
-**Orchestrated multi-agent system for fixing Playwright test failures in parallel.**
+**JSON-based orchestration for fixing Playwright test failures in true parallel.**
 
 ## What This Is
 
-A Claude Code plugin with 6 specialized agents that work together to fix Playwright test failures **5x faster** than manual debugging.
+A Claude Code plugin that fixes failing Playwright tests with **true parallel execution**: one smart test-fixer agent per failing test (up to 20 simultaneously).
+
+## How It Works
+
+```
+Run tests → Parse JSON → Spawn N agents → All work in parallel → Verify fixes
+            (structured)  (1 per test)    (10-15 min for 20)
+```
 
 ## Components
 
 ### 1. Orchestrator Agent (`orchestrator.md`)
 - **Role**: Master coordinator
-- **What it does**: Analyzes failures, categorizes by type, spawns 5 sub-agents in parallel
-- **Model**: Sonnet (complex planning)
+- **What it does**:
+  1. Runs `npx playwright test --reporter=json`
+  2. Parses JSON to extract failure details
+  3. Spawns one test-fixer per failing test (up to 20)
+  4. Verifies all fixes
+  5. Reports comprehensive summary
+- **Model**: Sonnet (complex planning + JSON parsing)
 
-### 2-6. Specialized Sub-Agents
-| Agent | Focus | Model |
-|-------|-------|-------|
-| `playwright-testing:selector-fixer` | Strict mode violations, .first() calls | Haiku |
-| `playwright-testing:timing-optimizer` | Hydration issues, networkidle waits | Haiku |
-| `playwright-testing:autosave-handler` | 2s debounce race conditions | Haiku |
-| `playwright-testing:data-cleaner` | Test data accumulation | Haiku |
-| `playwright-testing:assertion-fixer` | URL matching, SvelteKit form actions | Haiku |
+### 2. Test Fixer Agent (`test-fixer.md`)
+- **Role**: Generic test debugger (handles ALL types of failures)
+- **What it does**:
+  1. Reads failing test file
+  2. Analyzes error (selector? timing? assertion? auto-save?)
+  3. Identifies root cause
+  4. Applies appropriate fix
+  5. Reports what changed and why
+- **Model**: Sonnet (better quality fixes than Haiku)
+- **Reusable**: Same agent handles all failure types
 
 ## How to Use
 
-### Method 1: Automatic Invocation (Recommended)
-Just describe what you want:
+### Method 1: Slash Command (Recommended)
 ```
-"Fix the failing Playwright tests"
-"I have 20 failing tests, can you fix them in parallel?"
+/fix-tests
 ```
 
-Claude will automatically invoke the orchestrator agent based on context.
+### Method 2: Natural Language
+```
+"Fix my failing Playwright tests"
+"I have 15 test failures, can you fix them in parallel?"
+```
 
-### Method 2: Explicit Invocation
-Use the Task tool:
+### Method 3: Explicit Invocation
 ```typescript
 Task({
   subagent_type: "playwright-testing:orchestrator",
@@ -43,121 +58,209 @@ Task({
 });
 ```
 
+## Architecture Evolution
+
+### Old Approach (v1.0 - Category-based)
+```
+Orchestrator
+  ├─ selector-fixer (fixes 6 tests sequentially)
+  ├─ timing-optimizer (fixes 4 tests sequentially)
+  ├─ autosave-handler (fixes 4 tests sequentially)
+  ├─ data-cleaner (fixes 3 tests sequentially)
+  └─ assertion-fixer (fixes 3 tests sequentially)
+
+Time: 15-25 minutes for 20 tests
+Agents: 5 specialists (Haiku)
+Bottleneck: Each specialist works sequentially on multiple tests
+```
+
+### New Approach (v2.0 - Test-based) ✨
+```
+Orchestrator
+  ├─ test-fixer (auth.spec.ts:34)
+  ├─ test-fixer (auth.spec.ts:56)
+  ├─ test-fixer (create.spec.ts:12)
+  ├─ test-fixer (create.spec.ts:89)
+  ├─ test-fixer (delete.spec.ts:45)
+  └─ ... (up to 20 agents, all parallel)
+
+Time: 10-15 minutes for 20 tests
+Agents: 20 generic fixers (Sonnet)
+Benefit: TRUE parallelism - all agents work simultaneously
+```
+
 ## Expected Performance
 
-| Scenario | Manual Time | With Plugin | Savings |
-|----------|-------------|-------------|---------|
-| Fix 20 failing tests | 2-3 hours | 15-25 min | 85-90% |
-| Fix 10 failing tests | 1-1.5 hours | 10-15 min | 80-85% |
-| Fix 5 failing tests | 30-45 min | 5-8 min | 70-80% |
+| Scenario | Manual Fixing | With Plugin | Savings |
+|----------|--------------|-------------|---------|
+| 20 failing tests | 60-90 min | 10-15 min | 75-85% |
+| 10 failing tests | 30-45 min | 8-12 min | 70-75% |
+| 5 failing tests | 15-25 min | 5-8 min | 60-70% |
 
-## How It Works
-
-1. **Orchestrator analyzes** all test failures (2 min)
-2. **Categorizes** by failure type (selector, timing, auto-save, data, assertion)
-3. **Spawns 5 agents in parallel** (ONE message, multiple Task calls)
-4. **Agents work simultaneously** (15-20 min for 20 tests)
-5. **Orchestrator verifies** all fixes (2 min)
-6. **Reports summary** with comprehensive details
+**Cost**: ~$0.03 per test (Sonnet) = ~$0.60 for 20 tests
 
 ## Example Workflow
 
 ```
-You: "Fix the failing tests"
-
-Claude: [Invokes orchestrator]
+You: /fix-tests
 
 Orchestrator:
-  🔍 Running tests...
-  📊 Found 20 failures:
-     • Selector issues: 6 tests
-     • Timing issues: 4 tests
-     • Auto-save issues: 4 tests
-     • Data issues: 3 tests
-     • Assertion issues: 3 tests
+  📊 Running tests with JSON reporter...
+  🔍 Found 12 failures
 
-  🚀 Spawning 5 specialized agents in parallel...
+  Spawning 12 test-fixer agents in parallel:
+    1. auth.spec.ts:34 - Timeout on button click
+    2. auth.spec.ts:56 - Toggle state not updating
+    3. create-entry.spec.ts:12 - waitForURL timeout
+    ... [12 agents working simultaneously]
 
-[5 agents work simultaneously for 15-20 minutes]
+[12 agents work for 10-12 minutes]
 
 Orchestrator:
   ✅ All agents complete!
-  🎯 Results: 20/20 tests fixed
-  ⏱️ Time: 18 minutes
-  💰 Cost: $0.05
 
-  Final verification:
-  ✓ 42 passing tests
-  ✗ 0 failing tests
+  📈 Results:
+    ✅ auth.spec.ts:34 - Fixed (added networkidle wait)
+    ✅ auth.spec.ts:56 - Fixed (increased timeout)
+    ✅ create-entry.spec.ts:12 - Fixed (added auto-save wait)
+    ... [all 12 fixes listed]
+
+  🎯 Final verification:
+    ✓ 42 passing tests
+    ✗ 0 failing tests
+
+  ⏱️ Time: 11 minutes
+  💰 Cost: $0.36
 ```
 
-## Cost Breakdown
+## What Each Test-Fixer Can Handle
 
-- **Orchestrator (Sonnet)**: ~$0.02
-- **5 Sub-agents (Haiku)**: ~$0.005 × 5 = $0.025
-- **Total per run**: ~$0.05
+The generic test-fixer agent is smart enough to handle:
 
-**vs. Developer Time**: $50-100/hour = **1000-2000x ROI**
+### Selector Issues
+- "strict mode violation" → Adds `.first()`
+- "element not found" → Checks selector exists, adds wait if needed
+- Multiple matches → Makes selector more specific
 
-## Troubleshooting
+### Timing Issues
+- Timeout on first interaction → Adds `waitForLoadState('networkidle')`
+- Navigation timeout → Increases timeout or fixes redirect
+- Flaky failures → Adds appropriate waits
 
-### "Agent not found"
-- Ensure agent files are in `/agents/` directory (not `.claude/agents/`)
-- Check agent name in YAML frontmatter matches invocation
+### Auto-Save Issues (Project-Specific)
+- Content not saved → Adds `waitForTimeout(3000)` for 2s debounce + network
+- Knows about WriteEditor's 2-second debounce pattern
 
-### "Agents running sequentially"
-- Orchestrator must invoke ALL agents in ONE message
-- Multiple Task tool calls in single message = parallel execution
+### Assertion Issues
+- URL with query params → Uses `toMatch(/\/login/)` regex
+- Content whitespace → Uses `toContainText()` for flexibility
+- SvelteKit form actions → Handles `?/login` query params
 
-### "Fixes didn't work"
-- Run tests again to verify
-- Some fixes may uncover hidden issues
-- Check agent reports for details
+### Data Issues
+- Duplicate entries from test runs → Adds `.first()`
+- Recommends cleanup fixtures for long-term solution
 
 ## Project-Specific Knowledge
 
-This plugin knows about your project:
-- **Svelte 5 SSR** (hydration race conditions)
-- **SvelteKit** (form action query params)
-- **WriteEditor** (2s auto-save debounce)
-- **Supabase** (network latency)
-- **Sequential tests** (workers: 1)
+This plugin knows about:
+- **Svelte 5 SSR** (hydration race conditions common)
+- **SvelteKit** (form action query params like `?/login`)
+- **WriteEditor** (2-second auto-save debounce)
+- **Supabase** (network latency considerations)
+- **Sequential test execution** (workers: 1)
 
-## Next Steps (Week 2-4)
+## Cost Breakdown
 
-Future enhancements (not yet implemented):
-- **Skills**: Auto-activating skills for proactive debugging
-- **Commands**: `/fix-tests`, `/analyze-flaky`, etc.
-- **Scripts**: Trace analysis, pattern detection
-- **Hooks**: Pre-commit validation
+### Per-Test Cost (Sonnet)
+- **Orchestrator**: ~$0.03 (runs once)
+- **Test-fixer**: ~$0.03 per test
 
-For now, focus on the core orchestrator + sub-agents system.
+### Examples
+| Tests | Orchestrator | Fixers | Total |
+|-------|-------------|--------|-------|
+| 5 tests | $0.03 | $0.15 | $0.18 |
+| 10 tests | $0.03 | $0.30 | $0.33 |
+| 20 tests | $0.03 | $0.60 | $0.63 |
+
+**vs. Developer Time**: $50-100/hour = **100-300x ROI**
+
+## Handling >20 Failures
+
+If you have more than 20 failing tests:
+
+1. **Orchestrator prioritizes** critical tests (auth, core flows)
+2. **First batch**: Fixes top 20 tests in parallel
+3. **Re-run**: Tests again to see what's left
+4. **Second batch**: Fixes remaining tests
 
 ## File Structure
 
 ```
 .claude-plugin/
-└── plugin.json                    # Plugin metadata
+└── plugin.json                 # Plugin metadata
 
 agents/
-├── README.md               # This file
-├── orchestrator.md         # Main coordinator
-├── selector-fixer.md       # Selector specialist
-├── timing-optimizer.md     # Timing specialist
-├── autosave-handler.md     # Auto-save specialist
-├── data-cleaner.md         # Data specialist
-└── assertion-fixer.md      # Assertion specialist
+├── README.md                   # This file
+├── orchestrator.md             # Master coordinator (Sonnet)
+└── test-fixer.md               # Generic test fixer (Sonnet, reusable)
+
+commands/
+└── fix-tests.md                # /fix-tests slash command
 ```
+
+## vs. Other Approaches
+
+### vs. Playwright's Official Healer Agent
+
+| Feature | Our Plugin | Playwright Healer |
+|---------|-----------|------------------|
+| **Execution** | Parallel (20 at once) | Sequential (1 at a time) |
+| **Speed (20 tests)** | 10-15 min | 60-90 min |
+| **Approval** | Batch (trust the fixers) | Per-test (manual approval) |
+| **Support** | Custom (you maintain) | Official (Playwright maintains) |
+| **Trace Analysis** | Error + stack trace | Full trace (screenshots, network) |
+| **Best for** | Batch fixing many tests | Creating/maintaining few tests |
+
+### vs. Manual Fixing
+
+| Feature | Our Plugin | Manual |
+|---------|-----------|--------|
+| **Speed** | 10-15 min (20 tests) | 60-90 min |
+| **Consistency** | Follows patterns | Varies by developer |
+| **Documentation** | Auto-generated reports | Manual notes |
+| **Parallelism** | 20 agents simultaneously | 1 developer |
+| **Learning** | Encoded patterns | Developer knowledge |
+
+## Troubleshooting
+
+### "JSON file not found"
+- Ensure Playwright is installed: `npm install @playwright/test`
+- Check tests exist and can run
+- Try running manually: `npx playwright test`
+
+### "Agent not spawning"
+- Check agent files are in `/agents/` directory
+- Verify agent name in YAML frontmatter: `name: test-fixer`
+
+### "Fixes didn't work"
+- Re-run tests to verify: `npx playwright test`
+- Some fixes may uncover hidden issues
+- Check test-fixer reports for details
+
+### "Too slow"
+- Ensure using Sonnet (not Opus which is slower)
+- Check you're spawning agents in parallel (one message, multiple Task calls)
+- Limit to 20 agents per batch
 
 ## Support
 
 For issues or questions:
-1. Check agent reports for detailed error info
+1. Check test-fixer reports for detailed fix explanations
 2. Review PLAYWRIGHT_PLUGIN_ARCHITECTURE.md for design details
-3. Run tests manually to verify actual state
+3. Run tests manually to verify actual state: `npx playwright test`
 
 ---
 
-**Version**: 1.0.0 (Week 1 - Core Infrastructure)
+**Version**: 2.0.0 (JSON-Based Orchestration)
 **Status**: Production Ready
 **Last Updated**: 2025-01-18
