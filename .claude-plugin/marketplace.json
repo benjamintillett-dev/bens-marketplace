@@ -14,6 +14,12 @@
       "source": "./plugins/dev",
       "version": "1.0.0",
       "description": "Streamlined development workflow with code quality checks, testing assistance, documentation generation, and intelligent refactoring support"
+    },
+    {
+      "name": "playwright-tests",
+      "source": "./plugins/playwright-tests",
+      "version": "1.0.0",
+      "description": "Orchestrated multi-agent system for fixing Playwright test failures in parallel. Includes 1 orchestrator + 5 specialized sub-agents for 5x faster debugging."
     }
   ]
 }
