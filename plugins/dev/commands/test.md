@@ -1,7 +1,6 @@
 ---
 description: Run tests and analyze failures with actionable insights
 argument-hint: "[test-pattern or test-command]"
-model: sonnet
 ---
 
 # Test Runner and Analyzer

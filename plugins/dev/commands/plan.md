@@ -1,7 +1,6 @@
 ---
 description: Research and plan implementation for a feature or task
 argument-hint: "[feature description]"
-model: sonnet
 ---
 
 # Implementation Planning Command
