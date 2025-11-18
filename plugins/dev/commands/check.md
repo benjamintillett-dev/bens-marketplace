@@ -1,7 +1,6 @@
 ---
 description: Quick code quality check on recent changes
 argument-hint: "[file-pattern]"
-allowed-tools: ["Read", "Grep", "Glob", "Bash"]
 model: sonnet
 ---
 

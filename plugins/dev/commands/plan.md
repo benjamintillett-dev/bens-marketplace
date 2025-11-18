@@ -1,7 +1,6 @@
 ---
 description: Research and plan implementation for a feature or task
 argument-hint: "[feature description]"
-allowed-tools: ["Task", "Read", "Grep", "Glob", "Bash", "WebSearch", "WebFetch"]
 model: sonnet
 ---
 

@@ -1,7 +1,6 @@
 ---
 description: Generate or improve documentation for code
 argument-hint: "[file-pattern or scope]"
-allowed-tools: ["Read", "Edit", "Glob", "Grep", "Bash"]
 model: sonnet
 ---
 
