@@ -8,14 +8,9 @@ Analyze and fix all failing Playwright tests by spawning specialized sub-agents 
 
 ## Process
 
-Invoke the **orchestrator** agent to coordinate the test fixing process:
+Launch the **orchestrator** agent to coordinate the test fixing process. This agent will:
 
-```
-Use the Task tool to invoke the orchestrator agent:
-- subagent_type: "playwright:orchestrator"
-- model: "sonnet"
-- prompt: "Fix all failing Playwright tests in this project following your standard workflow."
-```
+**Key Point:** The orchestrator will spawn 5 specialized sub-agents in parallel using the Task tool with multiple invocations in a single message.
 
 The orchestrator will:
 
