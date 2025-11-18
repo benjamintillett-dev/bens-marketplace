@@ -8,11 +8,11 @@ Analyze and fix all failing Playwright tests by spawning specialized sub-agents 
 
 ## Process
 
-Invoke the **playwright-orchestrator** agent to coordinate the test fixing process:
+Invoke the **orchestrator** agent to coordinate the test fixing process:
 
 ```
-Use the Task tool to invoke the playwright-orchestrator agent:
-- subagent_type: "playwright-tests:playwright-orchestrator"
+Use the Task tool to invoke the orchestrator agent:
+- subagent_type: "playwright:orchestrator"
 - model: "sonnet"
 - prompt: "Fix all failing Playwright tests in this project following your standard workflow."
 ```
@@ -28,11 +28,11 @@ The orchestrator will:
    - Assertion issues (URL matching, SvelteKit form actions)
 
 3. **Spawn 5 specialized sub-agents in parallel** (single message, multiple Task calls):
-   - `playwright-tests:selector-fixer` (Haiku)
-   - `playwright-tests:timing-optimizer` (Haiku)
-   - `playwright-tests:autosave-handler` (Haiku)
-   - `playwright-tests:data-cleaner` (Haiku)
-   - `playwright-tests:assertion-fixer` (Haiku)
+   - `playwright:selector-fixer` (Haiku)
+   - `playwright:timing-optimizer` (Haiku)
+   - `playwright:autosave-handler` (Haiku)
+   - `playwright:data-cleaner` (Haiku)
+   - `playwright:assertion-fixer` (Haiku)
 
 4. **Verify all fixes** by running tests again
 

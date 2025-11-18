@@ -1,5 +1,5 @@
 ---
-name: playwright-orchestrator
+name: orchestrator
 description: Orchestrates parallel test fixing by analyzing Playwright failures, categorizing by root cause, and spawning specialized sub-agents to work simultaneously. Invoke when you need to fix multiple Playwright test failures efficiently. Expert in coordinating parallel execution for maximum throughput.
 model: sonnet
 tools: Read, Bash, Grep, Glob, Task
