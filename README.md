@@ -1,0 +1,323 @@
+# Dev Workflow Plugin
+
+A streamlined development workflow plugin for Claude Code that provides code quality checks, testing assistance, documentation generation, and intelligent refactoring support.
+
+## Features
+
+### 🔍 Slash Commands
+
+- **`/dev-workflow:check [file-pattern]`** - Quick code quality check on recent changes
+  - Analyzes code for bugs, security issues, and best practices
+  - Confidence-based filtering (80+ threshold)
+  - Works on git diff or specific files
+
+- **`/dev-workflow:test [test-pattern]`** - Run tests with intelligent failure analysis
+  - Auto-detects test framework (pytest, jest, vitest, rspec, go test, etc.)
+  - Provides root cause analysis for failures
+  - Suggests specific fixes with code examples
+
+- **`/dev-workflow:document [scope]`** - Generate comprehensive documentation
+  - Language-specific conventions (JSDoc, docstrings, etc.)
+  - Focuses on intent and usage, not implementation
+  - Updates or creates missing documentation
+
+### 🤖 Specialized Agents
+
+- **`bug-hunter`** - Deep bug analysis and edge case detection
+  - Uses Opus model for thorough analysis
+  - Finds runtime errors, race conditions, resource leaks
+  - Confidence scoring for precision
+
+- **`refactor-assistant`** - Identify refactoring opportunities
+  - Suggests code structure improvements
+  - Prioritizes by impact and effort
+  - Respects existing patterns
+
+- **`test-generator`** - Generate comprehensive test suites
+  - Covers happy paths, edge cases, and error conditions
+  - Follows testing best practices (AAA pattern)
+  - Auto-detects testing framework
+
+### 📚 Skills
+
+- **`code-documentation`** - Automatically invoked when writing code
+  - Generates language-appropriate documentation
+  - Provides inline comments for complex logic
+  - Ensures documentation stays in sync
+
+## Installation
+
+### Option 1: Personal Installation (Recommended)
+
+Install globally for use across all projects:
+
+```bash
+# Clone or copy the plugin to your home directory
+cp -r dev-workflow ~/.claude/plugins/
+
+# Restart Claude Code
+```
+
+### Option 2: Project-Specific Installation
+
+Install for a specific project:
+
+```bash
+# Copy to project directory
+cp -r dev-workflow /path/to/your/project/.claude/plugins/
+
+# Restart Claude Code
+```
+
+### Option 3: Marketplace Installation (Recommended for Teams)
+
+1. Create a git repository for this plugin:
+
+```bash
+cd dev-workflow
+git init
+git add .
+git commit -m "Initial commit"
+git remote add origin https://github.com/yourusername/dev-workflow-plugin
+git push -u origin main
+```
+
+2. Create a marketplace configuration:
+
+```bash
+# Create marketplace file
+mkdir -p ~/.claude/marketplaces
+cp marketplace-example.json ~/.claude/marketplaces/my-plugins.json
+```
+
+3. Edit `~/.claude/marketplaces/my-plugins.json` with your repository URL
+
+4. Install via Claude Code:
+
+```bash
+/plugin install dev-workflow
+```
+
+### Option 4: Symlink for Development
+
+Develop in one location and symlink to multiple projects:
+
+```bash
+# Develop here
+cd ~/code/claude-plugins/dev-workflow
+
+# Link to projects
+ln -s ~/code/claude-plugins/dev-workflow ~/.claude/plugins/dev-workflow
+# Or for project-specific:
+ln -s ~/code/claude-plugins/dev-workflow /path/to/project/.claude/plugins/dev-workflow
+```
+
+## Usage
+
+### Quick Start
+
+```bash
+# Check your recent changes
+/dev-workflow:check
+
+# Run tests and analyze failures
+/dev-workflow:test
+
+# Document recent changes
+/dev-workflow:document recent
+```
+
+### Using Agents Directly
+
+Agents can be invoked automatically by Claude or explicitly via the Task tool:
+
+```
+Can you use the bug-hunter agent to analyze the authentication module?
+```
+
+```
+Please use the test-generator to create tests for the new payment processing code.
+```
+
+### Skills
+
+The `code-documentation` skill activates automatically when you're writing code. No explicit invocation needed!
+
+## Customization
+
+### Adjusting Confidence Thresholds
+
+Edit command files to adjust confidence thresholds:
+
+```markdown
+<!-- In commands/check.md -->
+- Use a confidence threshold of 90+ for issues (0-100 scale)
+```
+
+### Adding Custom Checks
+
+Extend the `check` command with project-specific checks:
+
+```markdown
+<!-- In commands/check.md -->
+## Additional Project Checks
+- Verify compliance with internal style guide at docs/STYLE.md
+- Check for deprecated API usage
+```
+
+### Framework-Specific Test Configuration
+
+Customize the `test` command for your test framework:
+
+```markdown
+<!-- In commands/test.md -->
+## Test Execution
+
+Default command: npm test --verbose --coverage
+```
+
+### Custom Agent Workflows
+
+Create project-specific agents in `.claude/agents/` that complement these:
+
+```bash
+.claude/
+└── agents/
+    └── security-scanner.md  # Extends bug-hunter for security
+```
+
+## Configuration
+
+### Tool Permissions
+
+Agents have restricted tool access by design:
+
+- **bug-hunter**: Read-only (Read, Grep, Glob, Bash:git)
+- **refactor-assistant**: Read-only (Read, Grep, Glob, Bash:git)
+- **test-generator**: Read + Write (can create test files)
+
+### Model Selection
+
+Agents use different models for cost/performance optimization:
+
+- **bug-hunter**: Opus (most thorough)
+- **refactor-assistant**: Sonnet (balanced)
+- **test-generator**: Sonnet (efficient)
+
+Override in agent frontmatter:
+
+```yaml
+model: haiku  # For faster, cheaper execution
+```
+
+## Examples
+
+### Pre-Commit Workflow
+
+```bash
+# Check code quality
+/dev-workflow:check
+
+# Run tests
+/dev-workflow:test
+
+# Generate docs if needed
+/dev-workflow:document
+```
+
+### Feature Development Workflow
+
+```bash
+# 1. Write feature code
+# 2. Generate tests
+Use the test-generator agent to create tests for the new user authentication feature
+
+# 3. Check for bugs
+Use the bug-hunter agent to analyze the authentication module
+
+# 4. Document the API
+/dev-workflow:document src/auth/
+
+# 5. Final quality check
+/dev-workflow:check
+```
+
+### Refactoring Session
+
+```bash
+# Identify opportunities
+Use the refactor-assistant to analyze the services directory
+
+# Apply changes iteratively
+# (Make changes based on suggestions)
+
+# Verify nothing broke
+/dev-workflow:test
+
+# Final check
+/dev-workflow:check
+```
+
+## Integration with Hooks
+
+Combine with Claude Code hooks for automated workflows:
+
+```json
+// .claude/hooks/hooks.json
+{
+  "pre-commit": {
+    "command": "claude /dev-workflow:check && claude /dev-workflow:test"
+  }
+}
+```
+
+## Troubleshooting
+
+### Commands not found
+
+Ensure plugin is installed correctly:
+
+```bash
+ls -la ~/.claude/plugins/dev-workflow
+# or
+ls -la .claude/plugins/dev-workflow
+```
+
+Restart Claude Code after installation.
+
+### Test framework not detected
+
+Explicitly specify test command:
+
+```bash
+/dev-workflow:test "npm run test:unit"
+```
+
+### Documentation not generating
+
+Check file permissions and ensure files are readable:
+
+```bash
+chmod -R u+r dev-workflow/
+```
+
+## Contributing
+
+This plugin is designed to be extended! Consider adding:
+
+- Additional language-specific documentation templates
+- New agents for specific workflows (performance analysis, security scanning)
+- Framework-specific test templates
+- Custom quality check rules
+
+## License
+
+MIT License - see LICENSE file for details
+
+## Version History
+
+### 1.0.0 (Current)
+- Initial release
+- Three slash commands: check, test, document
+- Three agents: bug-hunter, refactor-assistant, test-generator
+- One skill: code-documentation

@@ -1,0 +1,12 @@
+{
+  "name": "My Development Plugins",
+  "description": "Personal collection of development workflow plugins",
+  "plugins": [
+    {
+      "name": "dev-workflow",
+      "source": "https://github.com/yourusername/dev-workflow-plugin",
+      "version": "1.0.0",
+      "description": "Streamlined development workflow with code quality checks, testing, and documentation"
+    }
+  ]
+}
