@@ -8,14 +8,14 @@ Best for individual developers who want the plugin available in all projects.
 
 ```bash
 # Copy plugin to your home directory
-cp -r dev-workflow ~/.claude/plugins/
+cp -r dev ~/.claude/plugins/
 
 # Restart Claude Code
 ```
 
 **Verify installation:**
 ```bash
-ls ~/.claude/plugins/dev-workflow
+ls ~/.claude/plugins/dev
 ```
 
 ---
@@ -27,13 +27,13 @@ Best for sharing with teams and easy updates.
 **Step 1: Create Git Repository**
 
 ```bash
-cd dev-workflow
+cd dev
 git init
 git add .
-git commit -m "Initial dev-workflow plugin"
+git commit -m "Initial dev plugin"
 
 # Push to GitHub/GitLab/etc
-git remote add origin https://github.com/YOURUSERNAME/dev-workflow-plugin
+git remote add origin https://github.com/YOURUSERNAME/dev-plugin
 git push -u origin main
 ```
 
@@ -57,8 +57,8 @@ Edit `~/.claude/marketplaces/my-plugins.json` and update the `source` URL:
   "description": "Personal collection of development workflow plugins",
   "plugins": [
     {
-      "name": "dev-workflow",
-      "source": "https://github.com/YOURUSERNAME/dev-workflow-plugin",
+      "name": "dev",
+      "source": "https://github.com/YOURUSERNAME/dev-plugin",
       "version": "1.0.0",
       "description": "Streamlined development workflow with code quality checks, testing, and documentation"
     }
@@ -70,7 +70,7 @@ Edit `~/.claude/marketplaces/my-plugins.json` and update the `source` URL:
 
 ```bash
 # In Claude Code
-/plugin install dev-workflow
+/plugin install dev
 ```
 
 ---
@@ -81,13 +81,13 @@ Best if you're actively developing and tweaking the plugin.
 
 ```bash
 # Keep plugin source here for editing
-cd ~/code/claude-plugins/dev-workflow
+cd ~/code/claude-plugins/dev
 
 # Create symlink in home directory
-ln -s ~/code/claude-plugins/dev-workflow ~/.claude/plugins/dev-workflow
+ln -s ~/code/claude-plugins/dev ~/.claude/plugins/dev
 
 # Or in a specific project
-ln -s ~/code/claude-plugins/dev-workflow /path/to/project/.claude/plugins/dev-workflow
+ln -s ~/code/claude-plugins/dev /path/to/project/.claude/plugins/dev
 ```
 
 **Benefits:**
@@ -103,12 +103,12 @@ Best for project-specific customization.
 
 ```bash
 # Copy to your project
-cp -r dev-workflow /path/to/your/project/.claude/plugins/
+cp -r dev /path/to/your/project/.claude/plugins/
 
 # Optionally commit to version control
 cd /path/to/your/project
-git add .claude/plugins/dev-workflow
-git commit -m "Add dev-workflow plugin"
+git add .claude/plugins/dev
+git commit -m "Add dev plugin"
 ```
 
 ---
@@ -119,7 +119,7 @@ After installation with any method, restart Claude Code and verify:
 
 ```bash
 # In Claude Code, try any command:
-/dev-workflow:check
+/dev:check
 
 # Or ask Claude to use an agent:
 Use the bug-hunter agent to check for issues in my recent changes

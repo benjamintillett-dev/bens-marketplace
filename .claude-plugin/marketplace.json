@@ -1,10 +1,10 @@
 {
-  "name": "Ben's Development Tools",
+  "name": "bens-marketplace",
   "description": "A curated collection of development workflow plugins for code quality, testing, and documentation",
   "plugins": [
     {
-      "name": "dev-workflow",
-      "path": "plugins/dev-workflow",
+      "name": "dev",
+      "path": "plugins/dev",
       "version": "1.0.0",
       "description": "Streamlined development workflow with code quality checks, testing assistance, documentation generation, and intelligent refactoring support"
     }

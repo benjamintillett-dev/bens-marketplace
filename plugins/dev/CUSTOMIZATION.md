@@ -1,6 +1,6 @@
 # Customization Guide
 
-This guide shows you how to customize the dev-workflow plugin for your specific needs.
+This guide shows you how to customize the dev plugin for your specific needs.
 
 ## Quick Customizations
 
@@ -112,7 +112,7 @@ $ARGUMENTS
 EOF
 ```
 
-Usage: `/dev-workflow:security-check`
+Usage: `/dev:security-check`
 
 ---
 
@@ -208,14 +208,14 @@ You can override plugin behavior on a per-project basis:
 
 ### Override a Command
 
-Create `.claude/commands/dev-workflow/check.md` in your project with custom behavior.
+Create `.claude/commands/dev/check.md` in your project with custom behavior.
 
 ### Add Project Commands
 
 ```bash
 # Project-specific command
-mkdir -p .claude/commands/dev-workflow
-cat > .claude/commands/dev-workflow/project-check.md << 'EOF'
+mkdir -p .claude/commands/dev
+cat > .claude/commands/dev/project-check.md << 'EOF'
 ---
 description: Project-specific quality checks
 ---
@@ -227,7 +227,7 @@ Check our project's specific requirements:
 EOF
 ```
 
-Usage: `/dev-workflow:project-check`
+Usage: `/dev:project-check`
 
 ### Layer Agent Customization
 
@@ -360,7 +360,7 @@ Add hooks in `.claude/hooks/hooks.json`:
 ```json
 {
   "pre-commit": {
-    "command": "claude-code /dev-workflow:check && claude-code /dev-workflow:test"
+    "command": "claude-code /dev:check && claude-code /dev:test"
   }
 }
 ```

@@ -1,18 +1,18 @@
-# Ben's Development Tools - Claude Code Marketplace
+# bens-marketplace - Claude Code Marketplace
 
 A curated collection of Claude Code plugins for streamlined development workflows.
 
 ## Available Plugins
 
-### 🛠️ dev-workflow
+### 🛠️ dev
 
 Comprehensive development workflow plugin with:
 
-- **Slash Commands**: `/dev-workflow:check`, `/dev-workflow:test`, `/dev-workflow:document`
+- **Slash Commands**: `/dev:check`, `/dev:test`, `/dev:document`
 - **Specialized Agents**: bug-hunter, refactor-assistant, test-generator
 - **Auto-invoked Skills**: code-documentation
 
-**[View Plugin Documentation →](./plugins/dev-workflow/README.md)**
+**[View Plugin Documentation →](./plugins/dev/README.md)**
 
 ## Installation
 
@@ -20,7 +20,7 @@ Comprehensive development workflow plugin with:
 
 ```bash
 # In Claude Code
-/marketplace add https://github.com/benjamintillett-dev/dev-workflow-plugin
+/marketplace add https://github.com/benjamintillett-dev/bens-marketplace
 ```
 
 Or add via Claude Code UI: Settings → Plugins → Add Marketplace
@@ -30,14 +30,14 @@ Or add via Claude Code UI: Settings → Plugins → Add Marketplace
 After adding the marketplace:
 
 ```bash
-/plugin install dev-workflow
+/plugin install dev
 ```
 
 ## Plugins Included
 
 | Plugin | Version | Description |
 |--------|---------|-------------|
-| dev-workflow | 1.0.0 | Code quality checks, testing assistance, documentation generation |
+| dev | 1.0.0 | Code quality checks, testing assistance, documentation generation |
 
 ## Future Plugins
 
@@ -51,11 +51,11 @@ This marketplace will grow with additional development tools:
 ## Repository Structure
 
 ```
-dev-workflow-plugin/
+bens-marketplace/
 ├── .claude-plugin/
 │   └── marketplace.json          # Marketplace definition
 ├── plugins/
-│   └── dev-workflow/             # Individual plugin
+│   └── dev/                      # Individual plugin
 │       ├── .claude-plugin/
 │       │   └── plugin.json       # Plugin manifest
 │       ├── commands/             # Slash commands

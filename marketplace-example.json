@@ -1,10 +1,10 @@
 {
-  "name": "My Development Plugins",
+  "name": "bens-marketplace",
   "description": "Personal collection of development workflow plugins",
   "plugins": [
     {
-      "name": "dev-workflow",
-      "source": "https://github.com/yourusername/dev-workflow-plugin",
+      "name": "dev",
+      "source": "https://github.com/benjamintillett-dev/bens-marketplace",
       "version": "1.0.0",
       "description": "Streamlined development workflow with code quality checks, testing, and documentation"
     }

@@ -1,4 +1,4 @@
-# Dev Workflow Plugin
+# Dev Plugin
 
 A streamlined development workflow plugin for Claude Code that provides code quality checks, testing assistance, documentation generation, and intelligent refactoring support.
 
@@ -6,17 +6,17 @@ A streamlined development workflow plugin for Claude Code that provides code qua
 
 ### 🔍 Slash Commands
 
-- **`/dev-workflow:check [file-pattern]`** - Quick code quality check on recent changes
+- **`/dev:check [file-pattern]`** - Quick code quality check on recent changes
   - Analyzes code for bugs, security issues, and best practices
   - Confidence-based filtering (80+ threshold)
   - Works on git diff or specific files
 
-- **`/dev-workflow:test [test-pattern]`** - Run tests with intelligent failure analysis
+- **`/dev:test [test-pattern]`** - Run tests with intelligent failure analysis
   - Auto-detects test framework (pytest, jest, vitest, rspec, go test, etc.)
   - Provides root cause analysis for failures
   - Suggests specific fixes with code examples
 
-- **`/dev-workflow:document [scope]`** - Generate comprehensive documentation
+- **`/dev:document [scope]`** - Generate comprehensive documentation
   - Language-specific conventions (JSDoc, docstrings, etc.)
   - Focuses on intent and usage, not implementation
   - Updates or creates missing documentation
@@ -53,7 +53,7 @@ Install globally for use across all projects:
 
 ```bash
 # Clone or copy the plugin to your home directory
-cp -r dev-workflow ~/.claude/plugins/
+cp -r dev ~/.claude/plugins/
 
 # Restart Claude Code
 ```
@@ -64,7 +64,7 @@ Install for a specific project:
 
 ```bash
 # Copy to project directory
-cp -r dev-workflow /path/to/your/project/.claude/plugins/
+cp -r dev /path/to/your/project/.claude/plugins/
 
 # Restart Claude Code
 ```
@@ -74,11 +74,11 @@ cp -r dev-workflow /path/to/your/project/.claude/plugins/
 1. Create a git repository for this plugin:
 
 ```bash
-cd dev-workflow
+cd dev
 git init
 git add .
 git commit -m "Initial commit"
-git remote add origin https://github.com/yourusername/dev-workflow-plugin
+git remote add origin https://github.com/yourusername/dev-plugin
 git push -u origin main
 ```
 
@@ -95,7 +95,7 @@ cp marketplace-example.json ~/.claude/marketplaces/my-plugins.json
 4. Install via Claude Code:
 
 ```bash
-/plugin install dev-workflow
+/plugin install dev
 ```
 
 ### Option 4: Symlink for Development
@@ -104,12 +104,12 @@ Develop in one location and symlink to multiple projects:
 
 ```bash
 # Develop here
-cd ~/code/claude-plugins/dev-workflow
+cd ~/code/claude-plugins/dev
 
 # Link to projects
-ln -s ~/code/claude-plugins/dev-workflow ~/.claude/plugins/dev-workflow
+ln -s ~/code/claude-plugins/dev ~/.claude/plugins/dev
 # Or for project-specific:
-ln -s ~/code/claude-plugins/dev-workflow /path/to/project/.claude/plugins/dev-workflow
+ln -s ~/code/claude-plugins/dev /path/to/project/.claude/plugins/dev
 ```
 
 ## Usage
@@ -118,13 +118,13 @@ ln -s ~/code/claude-plugins/dev-workflow /path/to/project/.claude/plugins/dev-wo
 
 ```bash
 # Check your recent changes
-/dev-workflow:check
+/dev:check
 
 # Run tests and analyze failures
-/dev-workflow:test
+/dev:test
 
 # Document recent changes
-/dev-workflow:document recent
+/dev:document recent
 ```
 
 ### Using Agents Directly
@@ -216,13 +216,13 @@ model: haiku  # For faster, cheaper execution
 
 ```bash
 # Check code quality
-/dev-workflow:check
+/dev:check
 
 # Run tests
-/dev-workflow:test
+/dev:test
 
 # Generate docs if needed
-/dev-workflow:document
+/dev:document
 ```
 
 ### Feature Development Workflow
@@ -236,10 +236,10 @@ Use the test-generator agent to create tests for the new user authentication fea
 Use the bug-hunter agent to analyze the authentication module
 
 # 4. Document the API
-/dev-workflow:document src/auth/
+/dev:document src/auth/
 
 # 5. Final quality check
-/dev-workflow:check
+/dev:check
 ```
 
 ### Refactoring Session
@@ -252,10 +252,10 @@ Use the refactor-assistant to analyze the services directory
 # (Make changes based on suggestions)
 
 # Verify nothing broke
-/dev-workflow:test
+/dev:test
 
 # Final check
-/dev-workflow:check
+/dev:check
 ```
 
 ## Integration with Hooks
@@ -266,7 +266,7 @@ Combine with Claude Code hooks for automated workflows:
 // .claude/hooks/hooks.json
 {
   "pre-commit": {
-    "command": "claude /dev-workflow:check && claude /dev-workflow:test"
+    "command": "claude /dev:check && claude /dev:test"
   }
 }
 ```
@@ -278,9 +278,9 @@ Combine with Claude Code hooks for automated workflows:
 Ensure plugin is installed correctly:
 
 ```bash
-ls -la ~/.claude/plugins/dev-workflow
+ls -la ~/.claude/plugins/dev
 # or
-ls -la .claude/plugins/dev-workflow
+ls -la .claude/plugins/dev
 ```
 
 Restart Claude Code after installation.
@@ -290,7 +290,7 @@ Restart Claude Code after installation.
 Explicitly specify test command:
 
 ```bash
-/dev-workflow:test "npm run test:unit"
+/dev:test "npm run test:unit"
 ```
 
 ### Documentation not generating
@@ -298,7 +298,7 @@ Explicitly specify test command:
 Check file permissions and ensure files are readable:
 
 ```bash
-chmod -R u+r dev-workflow/
+chmod -R u+r dev/
 ```
 
 ## Contributing
