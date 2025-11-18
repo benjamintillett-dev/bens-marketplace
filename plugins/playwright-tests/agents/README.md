@@ -8,7 +8,7 @@ A Claude Code plugin with 6 specialized agents that work together to fix Playwri
 
 ## Components
 
-### 1. Orchestrator Agent (`playwright-orchestrator.md`)
+### 1. Orchestrator Agent (`orchestrator.md`)
 - **Role**: Master coordinator
 - **What it does**: Analyzes failures, categorizes by type, spawns 5 sub-agents in parallel
 - **Model**: Sonnet (complex planning)
@@ -16,11 +16,11 @@ A Claude Code plugin with 6 specialized agents that work together to fix Playwri
 ### 2-6. Specialized Sub-Agents
 | Agent | Focus | Model |
 |-------|-------|-------|
-| `playwright:selector-fixer` | Strict mode violations, .first() calls | Haiku |
-| `playwright:timing-optimizer` | Hydration issues, networkidle waits | Haiku |
-| `playwright:autosave-handler` | 2s debounce race conditions | Haiku |
-| `playwright:data-cleaner` | Test data accumulation | Haiku |
-| `playwright:assertion-fixer` | URL matching, SvelteKit form actions | Haiku |
+| `playwright-testing:selector-fixer` | Strict mode violations, .first() calls | Haiku |
+| `playwright-testing:timing-optimizer` | Hydration issues, networkidle waits | Haiku |
+| `playwright-testing:autosave-handler` | 2s debounce race conditions | Haiku |
+| `playwright-testing:data-cleaner` | Test data accumulation | Haiku |
+| `playwright-testing:assertion-fixer` | URL matching, SvelteKit form actions | Haiku |
 
 ## How to Use
 
@@ -37,7 +37,7 @@ Claude will automatically invoke the orchestrator agent based on context.
 Use the Task tool:
 ```typescript
 Task({
-  subagent_type: "playwright-orchestrator",
+  subagent_type: "playwright-testing:orchestrator",
   prompt: "Fix all failing Playwright tests",
   description: "Fix tests"
 });
@@ -140,13 +140,13 @@ For now, focus on the core orchestrator + sub-agents system.
 └── plugin.json                    # Plugin metadata
 
 agents/
-├── README.md                      # This file
-├── playwright-orchestrator.md     # Main coordinator
-├── playwright-selector-fixer.md   # Selector specialist
-├── playwright-timing-optimizer.md # Timing specialist
-├── playwright-autosave-handler.md # Auto-save specialist
-├── playwright-data-cleaner.md     # Data specialist
-└── playwright-assertion-fixer.md  # Assertion specialist
+├── README.md               # This file
+├── orchestrator.md         # Main coordinator
+├── selector-fixer.md       # Selector specialist
+├── timing-optimizer.md     # Timing specialist
+├── autosave-handler.md     # Auto-save specialist
+├── data-cleaner.md         # Data specialist
+└── assertion-fixer.md      # Assertion specialist
 ```
 
 ## Support

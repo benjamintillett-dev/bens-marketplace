@@ -1,5 +1,5 @@
 {
-  "name": "playwright-testing-plugin",
+  "name": "playwright-testing",
   "description": "Orchestrated multi-agent system for fixing Playwright test failures in parallel. Includes 1 orchestrator + 5 specialized sub-agents for 5x faster debugging.",
   "version": "1.0.0",
   "author": {

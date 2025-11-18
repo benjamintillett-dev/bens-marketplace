@@ -159,35 +159,35 @@ Based on failure counts, spawn sub-agents **in parallel** using Task tool:
 // Example: 6 selector issues, 4 timing issues, 4 auto-save issues, 3 data issues, 3 assertion issues
 
 Task({
-  subagent_type: "playwright:selector-fixer",
+  subagent_type: "playwright-testing:selector-fixer",
   prompt: "Fix 6 strict mode violations in these tests: [list]",
   description: "Fix selector issues",
   model: "haiku"
 });
 
 Task({
-  subagent_type: "playwright:timing-optimizer",
+  subagent_type: "playwright-testing:timing-optimizer",
   prompt: "Fix 4 timeout/hydration issues in these tests: [list]",
   description: "Fix timing issues",
   model: "haiku"
 });
 
 Task({
-  subagent_type: "playwright:autosave-handler",
+  subagent_type: "playwright-testing:autosave-handler",
   prompt: "Fix 4 auto-save debounce issues in these tests: [list]",
   description: "Fix auto-save issues",
   model: "haiku"
 });
 
 Task({
-  subagent_type: "playwright:data-cleaner",
+  subagent_type: "playwright-testing:data-cleaner",
   prompt: "Fix 3 test data accumulation issues in these tests: [list]",
   description: "Fix data issues",
   model: "haiku"
 });
 
 Task({
-  subagent_type: "playwright:assertion-fixer",
+  subagent_type: "playwright-testing:assertion-fixer",
   prompt: "Fix 3 assertion failures in these tests: [list]",
   description: "Fix assertion issues",
   model: "haiku"
@@ -300,7 +300,7 @@ await Task({ subagent_type: "timing-optimizer", ... });
 
 ```yaml
 ---
-name: playwright:selector-fixer
+name: playwright-testing:selector-fixer
 description: Specialized agent for fixing Playwright selector issues, strict mode violations, and element-not-found errors. Expert in semantic locators, data-testid attributes, and exact matching.
 tools:
   - Read
@@ -406,7 +406,7 @@ await expect(page.getByText('Loaded content')).toBeVisible({ timeout: 10000 });
 
 ```yaml
 ---
-name: playwright:timing-optimizer
+name: playwright-testing:timing-optimizer
 description: Specialized agent for fixing Playwright timing issues, timeouts, hydration race conditions, and networkidle waits. Expert in Svelte 5 SSR hydration patterns.
 tools:
   - Read
@@ -515,7 +515,7 @@ await expect(page.locator('form')).toHaveAttribute('action', '?/signup', { timeo
 
 ```yaml
 ---
-name: playwright:autosave-handler
+name: playwright-testing:autosave-handler
 description: Specialized agent for fixing auto-save timing issues in WriteEditor component. Expert in 2-second debounce patterns and save verification strategies.
 tools:
   - Read
@@ -590,7 +590,7 @@ await expect(page.getByText(/saved/i)).toBeVisible({ timeout: 5000 });
 
 ```yaml
 ---
-name: playwright:data-cleaner
+name: playwright-testing:data-cleaner
 description: Specialized agent for fixing test data accumulation issues. Expert in adding .first() calls and identifying data pollution patterns.
 tools:
   - Read
@@ -652,7 +652,7 @@ await expect(page.getByText('Test Entry').first()).toBeVisible();
 
 ```yaml
 ---
-name: playwright:assertion-fixer
+name: playwright-testing:assertion-fixer
 description: Specialized agent for fixing assertion failures, URL matching issues, and content verification problems. Expert in SvelteKit form action patterns.
 tools:
   - Read

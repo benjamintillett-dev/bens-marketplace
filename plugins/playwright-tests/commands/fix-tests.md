@@ -23,11 +23,11 @@ The orchestrator will:
    - Assertion issues (URL matching, SvelteKit form actions)
 
 3. **Spawn 5 specialized sub-agents in parallel** (single message, multiple Task calls):
-   - `playwright:selector-fixer` (Haiku)
-   - `playwright:timing-optimizer` (Haiku)
-   - `playwright:autosave-handler` (Haiku)
-   - `playwright:data-cleaner` (Haiku)
-   - `playwright:assertion-fixer` (Haiku)
+   - `playwright-testing:selector-fixer` (Haiku)
+   - `playwright-testing:timing-optimizer` (Haiku)
+   - `playwright-testing:autosave-handler` (Haiku)
+   - `playwright-testing:data-cleaner` (Haiku)
+   - `playwright-testing:assertion-fixer` (Haiku)
 
 4. **Verify all fixes** by running tests again
 

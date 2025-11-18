@@ -22,11 +22,11 @@ Parse the output and categorize ALL failures into these categories:
 
 | Category | Indicators | Sub-Agent |
 |----------|-----------|-----------|
-| **Selector Issues** | "strict mode violation", "resolved to 2+ elements", "element not found" | playwright:selector-fixer |
-| **Timing Issues** | "Timeout", "exceeded", "waiting for", first interaction fails | playwright:timing-optimizer |
-| **Auto-Save Issues** | "toContain" in create-entry/edit-entry, content assertions fail | playwright:autosave-handler |
-| **Data Issues** | Multiple entries, "resolved to N elements", duplicates | playwright:data-cleaner |
-| **Assertion Issues** | "toHaveURL", "toMatch", URL/content mismatches | playwright:assertion-fixer |
+| **Selector Issues** | "strict mode violation", "resolved to 2+ elements", "element not found" | playwright-testing:selector-fixer |
+| **Timing Issues** | "Timeout", "exceeded", "waiting for", first interaction fails | playwright-testing:timing-optimizer |
+| **Auto-Save Issues** | "toContain" in create-entry/edit-entry, content assertions fail | playwright-testing:autosave-handler |
+| **Data Issues** | Multiple entries, "resolved to N elements", duplicates | playwright-testing:data-cleaner |
+| **Assertion Issues** | "toHaveURL", "toMatch", URL/content mismatches | playwright-testing:assertion-fixer |
 
 Count failures per category and create a categorized list.
 
@@ -54,7 +54,7 @@ Then invoke Task tool 5 times IN THE SAME MESSAGE:
 ```typescript
 // Agent 1: Selector Fixer
 Task({
-  subagent_type: "playwright:selector-fixer",
+  subagent_type: "playwright-testing:selector-fixer",
   model: "haiku",
   prompt: `Fix these 6 selector issues:
 
@@ -74,7 +74,7 @@ Task({
 
 // Agent 2: Timing Optimizer
 Task({
-  subagent_type: "playwright:timing-optimizer",
+  subagent_type: "playwright-testing:timing-optimizer",
   model: "haiku",
   prompt: `Fix these 4 timing issues:
 
@@ -93,7 +93,7 @@ Task({
 
 // Agent 3: Auto-Save Handler
 Task({
-  subagent_type: "playwright:autosave-handler",
+  subagent_type: "playwright-testing:autosave-handler",
   model: "haiku",
   prompt: `Fix these 4 auto-save timing issues:
 
@@ -112,7 +112,7 @@ Task({
 
 // Agent 4: Data Cleaner
 Task({
-  subagent_type: "playwright:data-cleaner",
+  subagent_type: "playwright-testing:data-cleaner",
   model: "haiku",
   prompt: `Fix these 3 data accumulation issues:
 
@@ -131,7 +131,7 @@ Task({
 
 // Agent 5: Assertion Fixer
 Task({
-  subagent_type: "playwright:assertion-fixer",
+  subagent_type: "playwright-testing:assertion-fixer",
   model: "haiku",
   prompt: `Fix these 3 assertion failures:
 
