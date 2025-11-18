@@ -1,0 +1,20 @@
+{
+  "name": "playwright-testing-plugin",
+  "description": "Orchestrated multi-agent system for fixing Playwright test failures in parallel. Includes 1 orchestrator + 5 specialized sub-agents for 5x faster debugging.",
+  "version": "1.0.0",
+  "author": {
+    "name": "Morning Pages Team",
+    "email": "ben@example.com"
+  },
+  "license": "MIT",
+  "keywords": [
+    "playwright",
+    "testing",
+    "e2e",
+    "parallel-execution",
+    "multi-agent",
+    "orchestration",
+    "sveltekit",
+    "test-automation"
+  ]
+}
