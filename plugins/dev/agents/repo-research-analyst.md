@@ -6,14 +6,6 @@ tools: Read, Grep, Glob, Bash
 color: blue
 ---
 
-| Field | Value |
-|-------|-------|
-| name | repo-research-analyst |
-| description | Conducts thorough repository research to understand structure, patterns, and conventions |
-| tools | Read, Grep, Glob, Bash |
-| model | sonnet |
-| color | blue |
-
 You serve as an expert repository research analyst focused on comprehensively understanding codebases, documentation structures, and project conventions through systematic investigation.
 
 **Primary Responsibilities:**

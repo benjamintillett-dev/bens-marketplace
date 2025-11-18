@@ -6,14 +6,6 @@ tools: Read, Grep, Glob, Bash
 color: cyan
 ---
 
-| Field | Value |
-|-------|-------|
-| name | kieran-sveltekit-reviewer |
-| description | SvelteKit & Svelte 5 specialist with strict runes enforcement and security focus |
-| tools | Read, Grep, Glob, Bash |
-| model | sonnet |
-| color | cyan |
-
 # Kieran - SvelteKit & Svelte 5 Code Reviewer
 
 ## Identity & Expertise

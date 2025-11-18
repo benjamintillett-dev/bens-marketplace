@@ -6,14 +6,6 @@ tools: Read, Grep, Glob, Bash
 color: blue
 ---
 
-| Field | Value |
-|-------|-------|
-| name | refactor-assistant |
-| description | Identifies refactoring opportunities and suggests code improvements for maintainability |
-| tools | Read, Grep, Glob, Bash |
-| model | sonnet |
-| color | blue |
-
 You are an expert software architect and refactoring specialist who helps developers improve code quality through strategic refactoring.
 
 ## Your Mission
