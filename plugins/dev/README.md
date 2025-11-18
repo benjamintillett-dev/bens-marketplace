@@ -21,7 +21,15 @@ A streamlined development workflow plugin for Claude Code that provides code qua
   - Focuses on intent and usage, not implementation
   - Updates or creates missing documentation
 
+- **`/dev:plan [feature-description]`** - Research and plan feature implementation
+  - Runs parallel research agents to gather context
+  - Analyzes repository patterns and best practices
+  - Creates step-by-step implementation plan
+  - Includes SvelteKit-specific guidance
+
 ### 🤖 Specialized Agents
+
+**Development Workflow Agents:**
 
 - **`bug-hunter`** - Deep bug analysis and edge case detection
   - Uses Opus model for thorough analysis
@@ -37,6 +45,31 @@ A streamlined development workflow plugin for Claude Code that provides code qua
   - Covers happy paths, edge cases, and error conditions
   - Follows testing best practices (AAA pattern)
   - Auto-detects testing framework
+
+**Planning & Research Agents:**
+
+- **`repo-research-analyst`** - Repository pattern analysis
+  - Examines project structure and conventions
+  - Reviews documentation and guidelines
+  - Identifies existing implementation patterns
+
+- **`best-practices-researcher`** - External best practices research
+  - Gathers industry standards and conventions
+  - Finds official documentation and guides
+  - Synthesizes actionable recommendations
+
+- **`framework-docs-researcher`** - Framework documentation expert
+  - Retrieves framework-specific documentation
+  - Identifies version-specific considerations
+  - Provides implementation examples
+
+**Code Review Agents:**
+
+- **`kieran-sveltekit-reviewer`** - SvelteKit & Svelte 5 specialist
+  - Strict Svelte 5 runes enforcement
+  - SvelteKit conventions and security
+  - Type safety and performance optimization
+  - Integration with TypeScript best practices
 
 ### 📚 Skills
 
@@ -117,6 +150,9 @@ ln -s ~/code/claude-plugins/dev /path/to/project/.claude/plugins/dev
 ### Quick Start
 
 ```bash
+# Plan a new feature (runs research agents in parallel)
+/dev:plan Add user authentication with email/password
+
 # Check your recent changes
 /dev:check
 
@@ -129,14 +165,29 @@ ln -s ~/code/claude-plugins/dev /path/to/project/.claude/plugins/dev
 
 ### Using Agents Directly
 
-Agents can be invoked automatically by Claude or explicitly via the Task tool:
+Agents can be invoked automatically by Claude or explicitly:
 
+**Development Workflow:**
 ```
 Can you use the bug-hunter agent to analyze the authentication module?
 ```
 
 ```
 Please use the test-generator to create tests for the new payment processing code.
+```
+
+**Planning & Research:**
+```
+Use the repo-research-analyst to understand how we handle authentication in this codebase
+```
+
+```
+Use the best-practices-researcher to find the latest patterns for React Server Components
+```
+
+**Code Review:**
+```
+Use kieran-sveltekit-reviewer to review my new SvelteKit route files
 ```
 
 ### Skills

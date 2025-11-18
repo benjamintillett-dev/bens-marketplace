@@ -8,8 +8,10 @@ A curated collection of Claude Code plugins for streamlined development workflow
 
 Comprehensive development workflow plugin with:
 
-- **Slash Commands**: `/dev:check`, `/dev:test`, `/dev:document`
-- **Specialized Agents**: bug-hunter, refactor-assistant, test-generator
+- **Slash Commands**: `/dev:check`, `/dev:test`, `/dev:document`, `/dev:plan`
+- **Development Agents**: bug-hunter, refactor-assistant, test-generator
+- **Research Agents**: repo-research-analyst, best-practices-researcher, framework-docs-researcher
+- **Code Review Agents**: kieran-sveltekit-reviewer (Svelte 5 & SvelteKit specialist)
 - **Auto-invoked Skills**: code-documentation
 
 **[View Plugin Documentation →](./plugins/dev/README.md)**
@@ -37,7 +39,7 @@ After adding the marketplace:
 
 | Plugin | Version | Description |
 |--------|---------|-------------|
-| dev | 1.0.0 | Code quality checks, testing assistance, documentation generation |
+| dev | 1.0.0 | Code quality, testing, documentation, feature planning with research agents |
 
 ## Future Plugins
 
